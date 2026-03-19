@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Transformando com Map</title>
+    <style>
+        body { font-family: sans-serif; margin: 20px; }
+        .card-container { display: flex; gap: 10px; flex-wrap: wrap; }
+        .produto-card { 
+            border: 1px solid #ddd; 
+            padding: 15px; 
+            border-radius: 8px; 
+            background: #fafafa;
+            width: 150px;
+        }
+        .preco-original { text-decoration: line-through; color: #888; font-size: 0.9em; }
+        .preco-desconto { color: #2e7d32; font-weight: bold; display: block; }
+    </style>
+</head>
+<body>
+
+    <h2>Vitrine com 10% de Desconto</h2>
+    <button onclick="aplicarDesconto()">Gerar Preços com Desconto</button>
+
+    <div id="vitrine" class="card-container" style="margin-top: 20px;">
+        </div>
+
+    <script>
+        const produtos = [
+            { nome: "Mouse", preco: 50 },
+            { nome: "Teclado", preco: 100 },
+            { nome: "Monitor", preco: 800 }
+        ];
+
+        function aplicarDesconto() {
+            const produtosComDesconto = produtos.map(prod => {
+                return {
+                    nome: prod.nome,
+                    precoOriginal: prod.preco,
+                    precoFinal: prod.preco * 0.9
+                };
+            });
+
+            console.log("Array original (intacto):", produtos);
+            console.log("Novo array transformado:", produtosComDesconto);
+
+            renderizar(produtosComDesconto);
+        }
+
+        function renderizar(lista) {
+            const vitrine = document.getElementById("vitrine");
+            vitrine.innerHTML = "";
+
+            lista.forEach(item => {
+                vitrine.innerHTML += `
+                    <div class="produto-card">
+                        <strong>${item.nome}</strong><br>
+                        <span class="preco-original">De: R$ ${item.precoOriginal}</span>
+                        <span class="preco-desconto">Por: R$ ${item.precoFinal.toFixed(2)}</span>
+                    </div>
+                `;
+            });
+        }
+    </script>
+</body>
+</html>

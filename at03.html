@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Tarefas com Prioridade</title>
+    <style>
+        body { font-family: sans-serif; margin: 20px; }
+        .input-group { margin-bottom: 15px; }
+        .prioridade-alta { color: #d32f2f; font-weight: bold; }
+        .prioridade-baixa { color: #757575; }
+        li { 
+            padding: 8px; 
+            border-bottom: 1px solid #eee; 
+            list-style: none;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Lista de Tarefas</h2>
+
+    <div class="input-group">
+        <input type="text" id="titulo" placeholder="O que precisa fazer?">
+        
+        <select id="prioridade">
+            <option value="baixa">Baixa Prioridade</option>
+            <option value="alta">Alta Prioridade</option>
+        </select>
+
+        <button onclick="adicionarTarefa()">Adicionar</button>
+    </div>
+
+    <ul id="listaTarefas"></ul>
+
+    <script>
+        let tarefas = [];
+
+        function adicionarTarefa() {
+            const inputTitulo = document.getElementById("titulo");
+            const selectPrioridade = document.getElementById("prioridade");
+
+            const novaTarefa = {
+                titulo: inputTitulo.value.trim(),
+                prioridade: selectPrioridade.value
+            };
+
+            if (novaTarefa.titulo === "") {
+                alert("Digite um título para a tarefa!");
+                return;
+            }
+
+            if (novaTarefa.prioridade === "alta") {
+                console.log("Adicionando ao início...");
+                tarefas.unshift(novaTarefa);
+            } else {
+                console.log("Adicionando ao final...");
+                tarefas.push(novaTarefa);
+            }
+
+            inputTitulo.value = "";
+            renderizar();
+        }
+
+        function renderizar() {
+            const listaHTML = document.getElementById("listaTarefas");
+            listaHTML.innerHTML = "";
+
+            tarefas.forEach(t => {
+                const classe = t.prioridade === "alta" ? "prioridade-alta" : "prioridade-baixa";
+                const prefixo = t.prioridade === "alta" ? "🚨 " : "⏳ ";
+
+                listaHTML.innerHTML += `
+                    <li class="${classe}">
+                        ${prefixo} ${t.titulo} (${t.prioridade})
+                    </li>
+                `;
+            });
+        }
+    </script>
+</body>
+</html>

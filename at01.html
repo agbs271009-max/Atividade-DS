@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Compras Simples</title>
+    <style>
+        body { font-family: sans-serif; margin: 20px; }
+        ul { margin-top: 15px; }
+        li { margin-bottom: 5px; }
+        button { cursor: pointer; margin-left: 10px; }
+    </style>
+</head>
+<body>
+
+    <h2>Minha Lista de Compras</h2>
+    
+    <input type="text" id="item" placeholder="Digite um item">
+    <button onclick="adicionar()">Adicionar</button>
+
+    <ul id="lista"></ul>
+
+    <script>
+        let itens = [];
+
+        function adicionar() {
+            const input = document.getElementById("item");
+            const valor = input.value.trim(); 
+
+            if (valor !== "") {
+                itens.push(valor);
+                
+                input.value = "";
+                
+                render();
+            } else {
+                alert("Por favor, digite um item!");
+            }
+        }
+
+        function remover(index) {
+           
+            itens.splice(index, 1);
+            
+            render();
+        }
+
+        function render() {
+            const ul = document.getElementById("lista");
+            
+            ul.innerHTML = "";
+
+            itens.forEach((item, i) => {
+                ul.innerHTML += `
+                    <li>
+                        ${item}
+                        <button onclick="remover(${i})">Remover</button>
+                    </li>
+                `;
+            });
+        }
+    </script>
+</body>
+</html>

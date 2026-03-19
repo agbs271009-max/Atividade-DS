@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Tarefas com Edição</title>
+    <style>
+        body { font-family: sans-serif; margin: 20px; }
+        .controles { margin-bottom: 20px; }
+        ul { list-style: none; padding: 0; }
+        li { 
+            background: #f4f4f4; 
+            margin-bottom: 8px; 
+            padding: 10px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            border-radius: 4px;
+            max-width: 400px;
+        }
+        button { margin-left: 5px; cursor: pointer; }
+        .btn-editar { background: #ffc107; border: 1px solid #d39e00; }
+        .btn-adicionar { background: #28a745; color: white; border: none; padding: 5px 10px; }
+    </style>
+</head>
+<body>
+
+    <h2>Gerenciador de Tarefas</h2>
+
+    <div class="controles">
+        <input type="text" id="tarefaInput" placeholder="Nova tarefa...">
+        <button class="btn-adicionar" onclick="adicionar()">Adicionar</button>
+    </div>
+
+    <ul id="listaTarefas"></ul>
+
+    <script>
+        let tarefas = ["Estudar JavaScript", "Fazer café"];
+
+        function adicionar() {
+            const input = document.getElementById("tarefaInput");
+            const texto = input.value.trim();
+
+            if (texto !== "") {
+                tarefas.push(texto);
+                input.value = "";
+                renderizar();
+            }
+        }
+
+        function editar(index) {
+            const novoTexto = prompt("Edite a tarefa:", tarefas[index]);
+
+            if (novoTexto !== null && novoTexto.trim() !== "") {
+                
+                tarefas.splice(index, 1, novoTexto.trim());
+                
+                renderizar();
+            }
+        }
+
+        function renderizar() {
+            const ul = document.getElementById("listaTarefas");
+            ul.innerHTML = "";
+
+            tarefas.forEach((tarefa, i) => {
+                ul.innerHTML += `
+                    <li>
+                        <span>${tarefa}</span>
+                        <div>
+                            <button class="btn-editar" onclick="editar(${i})">Editar</button>
+                        </div>
+                    </li>
+                `;
+            });
+        }
+
+        renderizar();
+    </script>
+</body>
+</html>

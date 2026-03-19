@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Ranking de Jogadores</title>
+    <style>
+        body { font-family: sans-serif; margin: 20px; background-color: #1a1a2e; color: white; }
+        .container { max-width: 400px; margin: auto; background: #16213e; padding: 20px; border-radius: 10px; border: 1px solid #0f3460; }
+        input { padding: 8px; border-radius: 4px; border: none; margin-bottom: 10px; width: 100%; box-sizing: border-box; }
+        button { width: 100%; padding: 10px; cursor: pointer; background: #e94560; color: white; border: none; border-radius: 4px; font-weight: bold; }
+        button:hover { background: #ff4d6d; }
+        .ranking-item { 
+            display: flex; 
+            justify-content: space-between; 
+            padding: 10px; 
+            border-bottom: 1px solid #0f3460;
+            background: rgba(255, 255, 255, 0.05);
+            margin-top: 5px;
+        }
+        .podio { color: #f1c40f; font-weight: bold; } /* Destaque para o primeiro lugar */
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>🏆 Ranking Global</h2>
+
+    <input type="text" id="jogador" placeholder="Nome do jogador">
+    <input type="number" id="pontos" placeholder="Pontuação">
+    <button onclick="adicionar()">Adicionar ao Ranking</button>
+
+    <div id="listaRanking" style="margin-top: 20px;">
+        </div>
+</div>
+
+<script>
+    let players = [];
+
+    function adicionar() {
+        const nome = document.getElementById("jogador").value;
+        const pts = parseInt(document.getElementById("pontos").value);
+
+        if (nome && !isNaN(pts)) {
+            players.push({ jogador: nome, pontos: pts });
+
+            players.sort((a, b) => b.pontos - a.pontos);
+
+            document.getElementById("jogador").value = "";
+            document.getElementById("pontos").value = "";
+
+            render();
+        }
+    }
+
+    function render() {
+        const container = document.getElementById("listaRanking");
+
+   

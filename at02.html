@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Gerenciador de Alunos</title>
+    <style>
+        body { font-family: sans-serif; margin: 20px; line-height: 1.6; }
+        .controles { margin-bottom: 20px; padding: 15px; background: #f4f4f4; border-radius: 8px; }
+        .aprovado { color: green; font-weight: bold; }
+        .reprovado { color: red; }
+        table { border-collapse: collapse; width: 100%; max-width: 400px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #eee; }
+    </style>
+</head>
+<body>
+
+    <h2>Gerenciador de Alunos</h2>
+
+    <div class="controles">
+        <input type="text" id="nome" placeholder="Nome do aluno">
+        <input type="number" id="nota" placeholder="Nota" min="0" max="10">
+        <button onclick="adicionar()">Adicionar Aluno</button>
+    </div>
+
+    <div>
+        <button onclick="renderizar(alunos)">Mostrar Todos</button>
+        <button onclick="filtrarAprovados()">Mostrar Aprovados (Nota ≥ 7)</button>
+    </div>
+
+    <h3>Lista de Alunos</h3>
+    <table id="tabelaAlunos">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Nota</th>
+            </tr>
+        </thead>
+        <tbody id="corpoTabela"></tbody>
+    </table>
+
+    <script>
+        let alunos = [];
+
+        function adicionar() {
+            const inputNome = document.getElementById("nome");
+            const inputNota = document.getElementById("nota");
+
+            const nome = inputNome.value.trim();
+            const nota = parseFloat(inputNota.value);
+
+            if (nome !== "" && !isNaN(nota)) {
+                const novoAluno = {
+                    nome: nome,
+                    nota: nota
+                };
+                
+                alunos.push(novoAluno);
+
+                inputNome.value = "";
+                inputNota.value = "";
+                
+                renderizar(alunos);
+            } else {
+                alert("Preencha o nome e a nota corretamente!");
+            }
+        }
+
+        function filtrarAprovados() {
+            const aprovados = alunos.filter(aluno => aluno.nota >= 7);
+            renderizar(aprovados);
+        }
+
+        function renderizar(listaParaExibir) {
+            const corpo = document.getElementById("corpoTabela");
+            corpo.innerHTML = "";
+
+            listaParaExibir.forEach(aluno => {
+                const classeNota = aluno.nota >= 7 ? "aprovado" : "reprovado";
+                
+                corpo.innerHTML += `
+                    <tr>
+                        <td>${aluno.nome}</td>
+                        <td class="${classeNota}">${aluno.nota.toFixed(1)}</td>
+                    </tr>
+                `;
+            });
+        }
+    </script>
+</body>
+</html>

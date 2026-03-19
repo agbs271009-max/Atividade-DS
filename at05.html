@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Carrinho de Compras Pop</title>
+    <style>
+        body { font-family: sans-serif; margin: 20px; }
+        .controles { margin-bottom: 20px; display: flex; gap: 10px; }
+        .carrinho { 
+            border: 2px dashed #ccc; 
+            padding: 15px; 
+            min-height: 50px; 
+            background: #f9f9f9;
+        }
+        .item-carrinho {
+            background: #fff;
+            border: 1px solid #ddd;
+            padding: 5px 10px;
+            margin: 5px 0;
+            border-radius: 4px;
+            display: inline-block;
+            margin-right: 5px;
+        }
+        .btn-remover { background-color: #ff4d4d; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px; }
+        .btn-adicionar { background-color: #28a745; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px; }
+    </style>
+</head>
+<body>
+
+    <h2>Meu Carrinho</h2>
+
+    <div class="controles">
+        <input type="text" id="produtoNome" placeholder="Nome do produto">
+        <button class="btn-adicionar" onclick="adicionar()">Adicionar Produto</button>
+        <button class="btn-remover" onclick="removerUltimo()">Remover Último (Pop)</button>
+    </div>
+
+    <div class="carrinho" id="displayCarrinho">
+        </div>
+
+    <script>
+        let carrinho = [];
+
+        function adicionar() {
+            const input = document.getElementById("produtoNome");
+            const nome = input.value.trim();
+
+            if (nome !== "") {
+                const novoProduto = {
+                    nome: nome,
+                    data: new Date().toLocaleTimeString()
+                };
+
+                carrinho.push(novoProduto);
+                input.value = "";
+                renderizar();
+            }
+        }
+
+        function removerUltimo() {
+            if (carrinho.length > 0) {
+                const removido = carrinho.pop();
+                console.log("Removido:", removido.nome);
+                renderizar();
+            } else {
+                alert("O carrinho já está vazio!");
+            }
+        }
+
+        function renderizar() {
+            const display = document.getElementById("displayCarrinho");
+            display.innerHTML = "";
+
+            if (carrinho.length === 0) {
+                display.innerHTML = "<em>Carrinho vazio...</em>";
+                return;
+            }
+
+            carrinho.forEach(item => {
+                display.innerHTML += `
+                    <div class="item-carrinho">
+                        📦 <strong>${item.nome}</strong> <small>(${item.data})</small>
+                    </div>
+                `;
+            });
+        }
+    </script>
+</body>
+</html>
